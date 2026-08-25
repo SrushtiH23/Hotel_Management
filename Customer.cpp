@@ -7,16 +7,19 @@ void customerMenu(Hotel &hotel)
 {
     int choice;
     int quantity;
+    int roomNumber;
 
     do
     {
         cout << "\n\n----- CUSTOMER MENU -----\n";
 
-        cout << "1. Book Rooms\n";
-        cout << "2. Order Food\n";
-        cout << "3. Order Water\n";
-        cout << "4. Order Drinks\n";
-        cout << "5. Back\n";
+        cout << "1. View Available Rooms\n";
+        cout << "2. Book a Room\n";
+        cout << "3. Checkout a Room\n";
+        cout << "4. Order Food\n";
+        cout << "5. Order Water\n";
+        cout << "6. Order Drinks\n";
+        cout << "7. Back\n";
 
         cout << "\nEnter choice: ";
         cin >> choice;
@@ -24,33 +27,51 @@ void customerMenu(Hotel &hotel)
         switch(choice)
         {
             case 1:
-                cout << "Enter number of rooms: ";
-                cin >> quantity;
-
-                hotel.orderRooms(quantity);
+                hotel.showAvailableRooms();
                 break;
 
             case 2:
+                cout << "Enter room number to book: ";
+                cin >> roomNumber;
+
+                hotel.bookRoom(roomNumber);
+                break;
+
+            case 3:
+                cout << "Enter room number to checkout: ";
+                cin >> roomNumber;
+
+                hotel.checkoutRoom(roomNumber);
+                break;
+
+            case 4:
                 cout << "Enter number of food items: ";
                 cin >> quantity;
 
                 hotel.orderFood(quantity);
                 break;
 
-            case 3:
+            case 5:
                 cout << "Enter number of water bottles: ";
                 cin >> quantity;
 
                 hotel.orderWater(quantity);
                 break;
 
-            case 4:
+            case 6:
                 cout << "Enter number of drinks: ";
                 cin >> quantity;
 
                 hotel.orderDrinks(quantity);
                 break;
+
+            case 7:
+                cout << "\nReturning to main menu...\n";
+                break;
+
+            default:
+                cout << "\nInvalid choice.\n";
         }
 
-    } while(choice != 5);
+    } while(choice != 7);
 }

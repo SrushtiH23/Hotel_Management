@@ -1,15 +1,19 @@
 #ifndef HOTEL_H
 #define HOTEL_H
 
+#include <vector>
+#include <string>
+#include "Room.h"
+
 class Hotel
 {
 private:
-    int availableRooms;
+    std::vector<Room> rooms;
+
     int availableFood;
     int availableWater;
     int availableDrinks;
 
-    int soldRooms;
     int soldFood;
     int soldWater;
     int soldDrinks;
@@ -20,11 +24,16 @@ private:
     int drinksRevenue;
 
 public:
-
     Hotel();
 
-    // Owner functions
-    void addRooms(int quantity);
+    // Room management
+    void addRoom(int roomNumber, std::string type, double price);
+    void showAvailableRooms();
+    void showAllRooms();
+    void bookRoom(int roomNumber);
+    void checkoutRoom(int roomNumber);
+
+    // Owner / inventory functions
     void addFood(int quantity);
     void addWater(int quantity);
     void addDrinks(int quantity);
@@ -33,7 +42,6 @@ public:
     void showSales();
 
     // Customer functions
-    void orderRooms(int quantity);
     void orderFood(int quantity);
     void orderWater(int quantity);
     void orderDrinks(int quantity);

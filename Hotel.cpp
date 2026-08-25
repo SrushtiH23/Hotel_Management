@@ -5,12 +5,12 @@ using namespace std;
 
 Hotel::Hotel()
 {
-    availableRooms = 0;
+    
     availableFood = 0;
     availableWater = 0;
     availableDrinks = 0;
 
-    soldRooms = 0;
+   
     soldFood = 0;
     soldWater = 0;
     soldDrinks = 0;
@@ -24,10 +24,22 @@ Hotel::Hotel()
 
 // OWNER FUNCTIONS
 
-void Hotel::addRooms(int quantity)
+void Hotel::addRoom(int roomNumber, std::string type, double price)
 {
-    availableRooms += quantity;
+    for (const Room &room : rooms)
+    {
+        if (room.getRoomNumber() == roomNumber)
+        {
+            cout << "Room " << roomNumber << " already exists.\n";
+            return;
+        }
+    }
+
+    rooms.push_back(Room(roomNumber, type, price));
+
+    cout << "Room " << roomNumber << " added successfully.\n";
 }
+
 
 void Hotel::addFood(int quantity)
 {
@@ -48,8 +60,6 @@ void Hotel::addDrinks(int quantity)
 void Hotel::showInventory()
 {
     cout << "\n----- CURRENT INVENTORY -----\n";
-
-    cout << "Available Rooms: " << availableRooms << endl;
     cout << "Available Food Items: " << availableFood << endl;
     cout << "Available Water Bottles: " << availableWater << endl;
     cout << "Available Drinks: " << availableDrinks << endl;
@@ -59,9 +69,6 @@ void Hotel::showInventory()
 void Hotel::showSales()
 {
     cout << "\n----- SALES REPORT -----\n";
-
-    cout << "Rooms Sold: " << soldRooms
-         << " | Revenue: Rs." << roomRevenue << endl;
 
     cout << "Food Sold: " << soldFood
          << " | Revenue: Rs." << foodRevenue << endl;
@@ -84,26 +91,62 @@ void Hotel::showSales()
 
 // ---------------- CUSTOMER FUNCTIONS ----------------
 
-void Hotel::orderRooms(int quantity)
+void Hotel::bookRoom(int roomNumber)
 {
-    if (quantity <= availableRooms)
+    for (Room &room : rooms)
     {
-        availableRooms -= quantity;
+        if (room.getRoomNumber() == roomNumber)
+        {
+            if (room.getAvailability())
+            {
+                room.bookRoom();
+                roomRevenue += room.getPrice();
+            }
+            else
+            {
+                cout << "Room " << roomNumber << " is already booked.\n";
+            }
 
-        soldRooms += quantity;
-
-        int cost = quantity * 1200;
-
-        roomRevenue += cost;
-
-        cout << "\nRooms booked successfully!";
-        cout << "\nTotal cost: Rs." << cost << endl;
+            return;
+        }
     }
-    else
+
+    cout << "Room not found.\n";
+}
+void Hotel::checkoutRoom(int roomNumber)
+{
+    for (Room &room : rooms)
     {
-        cout << "\nSorry! Only "
-             << availableRooms
-             << " rooms are available.\n";
+        if (room.getRoomNumber() == roomNumber)
+        {
+            room.checkoutRoom();
+            return;
+        }
+    }
+
+    std::cout << "Room not found.\n";
+}
+void Hotel::showAvailableRooms()
+{
+    std::cout << "\n--- AVAILABLE ROOMS ---\n";
+
+    for (const Room &room : rooms)
+    {
+        if (room.getAvailability())
+        {
+            room.displayRoom();
+            std::cout << std::endl;
+        }
+    }
+}
+void Hotel::showAllRooms()
+{
+    std::cout << "\n--- ALL ROOMS ---\n";
+
+    for (const Room &room : rooms)
+    {
+        room.displayRoom();
+        std::cout << std::endl;
     }
 }
 
